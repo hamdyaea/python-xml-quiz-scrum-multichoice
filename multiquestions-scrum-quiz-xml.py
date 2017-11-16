@@ -59,16 +59,18 @@ if game_start != "No":
 
         else:
             userAnswer = multchoicebox(msg,"question",ans)
-        if userAnswer in anstrue:
-            score = score + 1
-            correct = ("Well done you got it right. Your score is " + str(score))
-            image = "./images/tick.gif"
-            msgbox(title="CORRECT", image=image, msg=correct)
+            print(userAnswer)
+            print(anstrue)
+            if userAnswer==anstrue:
+                score = score + 1
+                correct = ("Well done you got it right. Your score is " + str(score))
+                image = "./images/tick.gif"
+                msgbox(title="CORRECT", image=image, msg=correct)
 
-        else:
-            wrong = "I'm sorry that's the wrong answer"
-            image = "./images/cross.gif"
-            msgbox(title="Wrong Answer", image=image, msg=wrong)
+            else:
+                wrong = "I'm sorry that's the wrong answer"
+                image = "./images/cross.gif"
+                msgbox(title="Wrong Answer", image=image, msg=wrong)
 
 gameover_good = "./images/logo.gif"
 gameover_bad = "./images/logo.gif"

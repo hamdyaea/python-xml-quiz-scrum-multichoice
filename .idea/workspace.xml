@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4fbacf93-07f7-4faa-8d39-521777d8569f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/multiquestions-scrum-quiz-xml.py" afterPath="$PROJECT_DIR$/multiquestions-scrum-quiz-xml.py" />
     </list>
@@ -18,8 +17,8 @@
       <file leaf-file-name="multiquestions-scrum-quiz-xml.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/multiquestions-scrum-quiz-xml.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="39" column="40" lean-forward="true" selection-start-line="39" selection-start-column="40" selection-end-line="39" selection-end-column="40" />
+            <state relative-caret-position="377">
+              <caret line="59" column="13" lean-forward="true" selection-start-line="59" selection-start-column="13" selection-end-line="59" selection-end-column="13" />
               <folding>
                 <element signature="e#59#80#0" expanded="true" />
               </folding>
@@ -147,8 +146,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/multiquestions-scrum-quiz-xml.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="39" column="40" lean-forward="true" selection-start-line="39" selection-start-column="40" selection-end-line="39" selection-end-column="40" />
+        <state relative-caret-position="377">
+          <caret line="59" column="13" lean-forward="true" selection-start-line="59" selection-start-column="13" selection-end-line="59" selection-end-column="13" />
           <folding>
             <element signature="e#59#80#0" expanded="true" />
           </folding>
