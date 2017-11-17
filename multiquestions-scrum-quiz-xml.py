@@ -30,7 +30,6 @@ game_start = buttonbox(title=start_title,image=logo,msg=start_msg,choices=play)
 
 
 
-print(game_start)
 
 if game_start != "No":
 
@@ -62,8 +61,7 @@ if game_start != "No":
 
         else:
             userAnswer = multchoicebox(msg,"question",ans)
-            print(userAnswer)
-            print(anstrue)
+
             if userAnswer==anstrue:
                 score = score + 1
                 correct = ("Well done you got it right. Your score is " + str(score))
