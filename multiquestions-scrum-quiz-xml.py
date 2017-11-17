@@ -6,6 +6,7 @@ from easygui import *
 
 #please use at least version 0.98  with #sudo python3 -m pip install --upgrade easygui
 
+import sys
 
 import pygame
 
@@ -26,6 +27,7 @@ play = ["Yes","No"]
 start_title = "Welcome to The Scrum Master Quiz"
 start_msg = "Would you like to play the Scrum Master Quiz?"
 game_start = buttonbox(title=start_title,image=logo,msg=start_msg,choices=play)
+
 
 
 print(game_start)
@@ -51,8 +53,9 @@ if game_start != "No":
                 image = "./images/tick.gif"
                 msgbox(title="CORRECT", image=image, msg=correct)
 
+            elif userAnswer==None:
+                sys.exit(0)
             else:
-
                 wrong = "I'm sorry that's the wrong answer"
                 image = "./images/cross.gif"
                 msgbox(title="Wrong Answer", image=image, msg=wrong)
