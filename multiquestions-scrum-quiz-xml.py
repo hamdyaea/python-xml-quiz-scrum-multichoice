@@ -3,6 +3,8 @@
 
 from easygui import *
 
+import time
+
 
 #please use at least version 0.98  with #sudo python3 -m pip install --upgrade easygui
 
@@ -30,16 +32,20 @@ game_start = buttonbox(title=start_title,image=logo,msg=start_msg,choices=play)
 
 
 
-
 if game_start != "No":
 
-    msgbox(title="Let the Scrum Master Quizz begin",image=logo,msg="Your score is "+str(score))
 
+
+    msgbox(title="Let the Scrum Master Quizz begin",image=logo,msg="Your score is "+str(score))
+    start = time.time()
     for question in root:
         ans = []
         anstrue =[]
         msg = question.attrib.get("msg")
         type = question.attrib.get("type")
+
+
+
         for answer in question:
             ans.append(answer.attrib.get("text"))
             if answer.attrib.get("valid") == "true":
@@ -48,28 +54,37 @@ if game_start != "No":
             userAnswer = choicebox(msg,"question",ans)
             if userAnswer in anstrue:
                 score = score + 1
-                correct = ("Well done you got it right. Your score is " + str(score))
+                end = time.time()
+                result = (end - start)
+                correct = ("Well done you got it right. Your score is " +str(score), "Time used untile now :" +str(result),"seconds")
                 image = "./images/tick.gif"
                 msgbox(title="CORRECT", image=image, msg=correct)
 
             elif userAnswer==None:
                 sys.exit(0)
             else:
-                wrong = "I'm sorry that's the wrong answer"
+                end = time.time()
+                result = (end - start)
+                wrong = "I'm sorry that's the wrong answer, your time used until now is" + str(result)
                 image = "./images/cross.gif"
                 msgbox(title="Wrong Answer", image=image, msg=wrong)
 
         else:
             userAnswer = multchoicebox(msg,"question",ans)
 
+            print(anstrue)
             if userAnswer==anstrue:
                 score = score + 1
-                correct = ("Well done you got it right. Your score is " + str(score))
+                end = time.time()
+                result = (end - start)
+                correct = ("Well done you got it right. Your score is " + str(score), "Time used untile now :" +str(result),"seconds")
                 image = "./images/tick.gif"
                 msgbox(title="CORRECT", image=image, msg=correct)
 
             else:
-                wrong = "I'm sorry that's the wrong answer"
+                end = time.time()
+                result = (end - start)
+                wrong = "I'm sorry that's the wrong answer", "Time used untile now :" +str(result),"seconds"
                 image = "./images/cross.gif"
                 msgbox(title="Wrong Answer", image=image, msg=wrong)
 
@@ -77,8 +92,8 @@ gameover_good = "./images/logo.gif"
 gameover_bad = "./images/logo.gif"
 
 game_over_title = "Scrum Master Quiz"
-msg_bad = ("You have not passed the exam, your score is (under 85%) : "+str(score))
-msg_good = ("You have passed the exam, your score is : "+str(score))
+msg_bad = ("You have not passed the exam, your score is (under 85%) : "+str(score), "Total time used :" +str(result),"seconds")
+msg_good = ("You have passed the exam, your score is : "+str(score), "Total time used :" +str(result),"seconds")
 if score < 3: #85% of 4
     game_over = msgbox(title=game_over_title,image=gameover_bad,msg= msg_bad)
 else:
