@@ -4,7 +4,7 @@
 from easygui import *
 
 import time
-
+import math
 
 #please use at least version 0.98  with #sudo python3 -m pip install --upgrade easygui
 
@@ -28,16 +28,14 @@ play = ["Yes","No"]
 
 start_title = "Welcome to The Scrum Master Quiz"
 start_msg = "Would you like to play the Scrum Master Quiz?"
+start = time.time()
 game_start = buttonbox(title=start_title,image=logo,msg=start_msg,choices=play)
-
-
 
 if game_start != "No":
 
 
 
     msgbox(title="Let the Scrum Master Quizz begin",image=logo,msg="Your score is "+str(score))
-    start = time.time()
     for question in root:
         ans = []
         anstrue =[]
@@ -56,7 +54,7 @@ if game_start != "No":
                 score = score + 1
                 end = time.time()
                 result = (end - start)
-                correct = ("Well done you got it right. Your score is " +str(score), "Time used untile now :" +str(result),"seconds")
+                correct = ("Well done you got it right. Your score is " +str(score), "Time used untile now :" +str(math.floor(result)),"seconds")
                 image = "./images/tick.gif"
                 msgbox(title="CORRECT", image=image, msg=correct)
 
@@ -65,7 +63,7 @@ if game_start != "No":
             else:
                 end = time.time()
                 result = (end - start)
-                wrong = "I'm sorry that's the wrong answer, your time used until now is" + str(result)
+                wrong = ("I'm sorry that's the wrong answer, your time used until now is" + str(math.floor(result)),"seconds")
                 image = "./images/cross.gif"
                 msgbox(title="Wrong Answer", image=image, msg=wrong)
 
@@ -77,23 +75,26 @@ if game_start != "No":
                 score = score + 1
                 end = time.time()
                 result = (end - start)
-                correct = ("Well done you got it right. Your score is " + str(score), "Time used untile now :" +str(result),"seconds")
+                correct = ("Well done you got it right. Your score is " + str(score), "Time used untile now :" +str(math.floor(result)), "seconds")
                 image = "./images/tick.gif"
                 msgbox(title="CORRECT", image=image, msg=correct)
 
             else:
                 end = time.time()
                 result = (end - start)
-                wrong = "I'm sorry that's the wrong answer", "Time used untile now :" +str(result),"seconds"
+                wrong = ("I'm sorry that's the wrong answer", "Time used untile now :" +str(math.floor(result)), "seconds")
                 image = "./images/cross.gif"
                 msgbox(title="Wrong Answer", image=image, msg=wrong)
+
+end = time.time()
+result = (end - start)
 
 gameover_good = "./images/logo.gif"
 gameover_bad = "./images/logo.gif"
 
 game_over_title = "Scrum Master Quiz"
-msg_bad = ("You have not passed the exam, your score is (under 85%) : "+str(score), "Total time used :" +str(result),"seconds")
-msg_good = ("You have passed the exam, your score is : "+str(score), "Total time used :" +str(result),"seconds")
+msg_bad = ("You have not passed the exam, your score is (under 85%) : "+str(score), "Total time used :" +str(math.floor(result)),"seconds")
+msg_good = ("You have passed the exam, your score is : "+str(score), "Total time used :" +str(math.floor(result)),"seconds")
 if score < 3: #85% of 4
     game_over = msgbox(title=game_over_title,image=gameover_bad,msg= msg_bad)
 else:
