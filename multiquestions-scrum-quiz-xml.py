@@ -95,7 +95,7 @@ gameover_bad = "./images/logo.gif"
 game_over_title = "Scrum Master Quiz"
 msg_bad = ("You have not passed the exam, your score is (under 85%) : "+str(score), "Total time used :" +str(math.floor(result)),"seconds")
 msg_good = ("You have passed the exam, your score is : "+str(score), "Total time used :" +str(math.floor(result)),"seconds")
-if score < 3: #85% of 4
+if score < 3: #85% of 4 questions
     game_over = msgbox(title=game_over_title,image=gameover_bad,msg= msg_bad)
 else:
     game_over = msgbox(title=game_over_title,image=gameover_good,msg= msg_good)
