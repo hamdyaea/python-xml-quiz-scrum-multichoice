@@ -22,7 +22,7 @@ root = tree.getroot()
 
 score = 0
 
-logo = "./images/logo.gif"
+logo = "./images/quiz-logo.jpg"
 
 play = ["Yes","No"]
 
