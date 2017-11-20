@@ -30,6 +30,7 @@ start_title = "Welcome to The Scrum Master Quiz"
 start_msg = "Would you like to play the Scrum Master Quiz?"
 start = time.time()
 game_start = buttonbox(title=start_title,image=logo,msg=start_msg,choices=play)
+player_name = enterbox(msg="Enter your name.", title="Player name")
 
 if game_start != "No":
 
@@ -93,8 +94,8 @@ gameover_good = "./images/logo.gif"
 gameover_bad = "./images/logo.gif"
 
 game_over_title = "Scrum Master Quiz"
-msg_bad = ("You have not passed the exam, your score is (under 85%) : "+str(score)+str( ". Total time used :" +str(math.floor(result))+str(" seconds")))
-msg_good = ("You have passed the exam, your score is : "+str(score)+str( ". Total time used :" +str(math.floor(result))+str(" seconds")))
+msg_bad = ("You have not passed the exam ")+str(player_name)+str(" , your score is (under 85%) : ")+str(score)+str( ". Total time used :" +str(math.floor(result))+str(" seconds"))
+msg_good = ("You have passed the exam ")+str(player_name)+str(" , your score is : "+str(score))+str( ". Total time used :" +str(math.floor(result))+str(" seconds"))
 if score < 3: #85% of 4 questions
     game_over = msgbox(title=game_over_title,image=gameover_bad,msg= msg_bad)
 else:
