@@ -16,7 +16,7 @@ pygame.init()
 
 
 import xml.etree.ElementTree as ET
-tree = ET.parse('questions.xml')
+tree = ET.parse("./xml/scrum.xml")
 root = tree.getroot()
 
 
