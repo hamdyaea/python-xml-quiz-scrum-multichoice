@@ -1,27 +1,28 @@
 <?xml version="1.0"?>
-<all-questions>
-    <question msg = "An organization has decided to adopt Scrum, but management wants to change the terminology to fit with terminology already used. What will likely happen if this is done?" type = "unique">
-        <answer text = "All answers apply." valid = "true"/>
-        <answer text = "Without a new vocabulary as a reminder of the change, very little change may actually happen." valid = "false"/>
-        <answer text = "The organization may not understand what has changed with Scrum and the benefits of Scrum may be lost." valid = "false"/>
-        <answer text = "Management may feel less anxious." valid = "false"/>
-    </question>
-    <question msg = "What are the two primary ways a Scrum Master keeps a Development Team working at its highest level of productivity? (2 answers)" type = "multi">
-        <answer text = "By facilitating Development Team decisions" valid = "true"/>
-        <answer text = "By removing impediments that hinder the Development Team" valid = "true"/>
-        <answer text = "By starting and ending the meetings at the proper time" valid = "false"/>
-        <answer text = "By keeping high value features high in the Product Backlog" valid = "false"/>
-    </question>
-    <question msg = "Which statement best describes a Product Owner's responsibility?" type = "unique">
-        <answer text = "Optimizing the value of the work the Development Team does." valid = "true"/>
-        <answer text = "Directing the Development Team." valid = "false"/>
-        <answer text = "Managing the project and ensuring that the work meets the commitments to the stakeholders." valid = "false"/>
-        <answer text = "Keeping stakeholders at bay." valid = "false"/>
-    </question>
-    <question msg = "How much work must a Development Team do to a Product Backlog item it selects for a Sprint?" type = "unique">
-        <answer text = "As much as it has told the Product Owner will be done for every Product Backlog item it selects in conformance with the definition of done." valid = "true"/>
-        <answer text = "As much as it can fit into the Sprint." valid = "false"/>
-        <answer text = "All development work and at least some testing." valid = "false"/>
-        <answer text = "Analysis, design, programming, testing and documentation." valid = "false"/>
-    </question>
-</all-questions>
+    <all-questions success-rate = "85" number_questions = "80"><!-- %to win the test in number  --><!-- Number of questions in the exam -->
+		<question msg = "An organization has decided to adopt Scrum, but management wants to change the terminology to fit with terminology already used. What will likely happen if this is done?" type = "unique">
+			<answer text = "All answers apply." valid = "true"/>
+			<answer text = "Without a new vocabulary as a reminder of the change, very little change may actually happen." valid = "false"/>
+			<answer text = "The organization may not understand what has changed with Scrum and the benefits of Scrum may be lost." valid = "false"/>
+			<answer text = "Management may feel less anxious." valid = "false"/>
+		</question>
+		<question msg = "What are the two primary ways a Scrum Master keeps a Development Team working at its highest level of productivity? (2 answers)" type = "multi">
+			<answer text = "By facilitating Development Team decisions" valid = "true"/>
+			<answer text = "By removing impediments that hinder the Development Team" valid = "true"/>
+			<answer text = "By starting and ending the meetings at the proper time" valid = "false"/>
+			<answer text = "By keeping high value features high in the Product Backlog" valid = "false"/>
+		</question>
+		<question msg = "Which statement best describes a Product Owner's responsibility?" type = "unique">
+			<answer text = "Optimizing the value of the work the Development Team does." valid = "true"/>
+			<answer text = "Directing the Development Team." valid = "false"/>
+			<answer text = "Managing the project and ensuring that the work meets the commitments to the stakeholders." valid = "false"/>
+			<answer text = "Keeping stakeholders at bay." valid = "false"/>
+		</question>
+		<question msg = "How much work must a Development Team do to a Product Backlog item it selects for a Sprint?" type = "unique">
+			<answer text = "As much as it has told the Product Owner will be done for every Product Backlog item it selects in conformance with the definition of done." valid = "true"/>
+			<answer text = "As much as it can fit into the Sprint." valid = "false"/>
+			<answer text = "All development work and at least some testing." valid = "false"/>
+			<answer text = "Analysis, design, programming, testing and documentation." valid = "false"/>
+		</question>
+	</all-questions>
+
