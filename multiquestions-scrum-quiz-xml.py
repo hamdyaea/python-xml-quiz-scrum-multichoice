@@ -54,7 +54,7 @@ if game_start != "No":
                 score = score + 1
                 end = time.time()
                 result = end - start
-                correct = ("Well done you got it right. Your score is " +str(score), "Time used untile now :" +str(math.floor(result)),"seconds")
+                correct = ("Well done you got it right. Your score is " +str(score), "Time used untile now : " +str(math.floor(result))+str(" seconds"))
                 image = "./images/tick.gif"
                 msgbox(title="CORRECT", image=image, msg=correct)
 
@@ -63,7 +63,7 @@ if game_start != "No":
             else:
                 end = time.time()
                 result = end - start
-                wrong = ("I'm sorry that's the wrong answer, your time used until now is" + str(math.floor(result)),"seconds")
+                wrong = ("I'm sorry that's the wrong answer, your time used until now is " + str(math.floor(result)) +str(" seconds"))
                 image = "./images/cross.gif"
                 msgbox(title="Wrong Answer", image=image, msg=wrong)
 
@@ -75,14 +75,14 @@ if game_start != "No":
                 score = score + 1
                 end = time.time()
                 result = end - start
-                correct = ("Well done you got it right. Your score is " + str(score), "Time used untile now :" +str(math.floor(result)), "seconds")
+                correct = ("Well done you got it right. Your score is " + str(score), "Time used untile now : " +str(math.floor(result))+str(" seconds"))
                 image = "./images/tick.gif"
                 msgbox(title="CORRECT", image=image, msg=correct)
 
             else:
                 end = time.time()
                 result = end - start
-                wrong = ("I'm sorry that's the wrong answer", "Time used untile now :" +str(math.floor(result)), "seconds")
+                wrong = ("I'm sorry that's the wrong answer", "Time used untile now : " +str(math.floor(result))+str(" seconds"))
                 image = "./images/cross.gif"
                 msgbox(title="Wrong Answer", image=image, msg=wrong)
 
@@ -93,8 +93,8 @@ gameover_good = "./images/logo.gif"
 gameover_bad = "./images/logo.gif"
 
 game_over_title = "Scrum Master Quiz"
-msg_bad = ("You have not passed the exam, your score is (under 85%) : "+str(score), "Total time used :" +str(math.floor(result)),"seconds")
-msg_good = ("You have passed the exam, your score is : "+str(score), "Total time used :" +str(math.floor(result)),"seconds")
+msg_bad = ("You have not passed the exam, your score is (under 85%) : "+str(score), "Total time used :" +str(math.floor(result))+str(" seconds"))
+msg_good = ("You have passed the exam, your score is : "+str(score), "Total time used :" +str(math.floor(result))+str(" seconds"))
 if score < 3: #85% of 4 questions
     game_over = msgbox(title=game_over_title,image=gameover_bad,msg= msg_bad)
 else:
