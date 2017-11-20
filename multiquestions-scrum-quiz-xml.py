@@ -53,7 +53,7 @@ if game_start != "No":
             if userAnswer in anstrue:
                 score = score + 1
                 end = time.time()
-                result = (end - start)
+                result = end - start
                 correct = ("Well done you got it right. Your score is " +str(score), "Time used untile now :" +str(math.floor(result)),"seconds")
                 image = "./images/tick.gif"
                 msgbox(title="CORRECT", image=image, msg=correct)
@@ -62,7 +62,7 @@ if game_start != "No":
                 sys.exit(0)
             else:
                 end = time.time()
-                result = (end - start)
+                result = end - start
                 wrong = ("I'm sorry that's the wrong answer, your time used until now is" + str(math.floor(result)),"seconds")
                 image = "./images/cross.gif"
                 msgbox(title="Wrong Answer", image=image, msg=wrong)
@@ -74,14 +74,14 @@ if game_start != "No":
             if userAnswer==anstrue:
                 score = score + 1
                 end = time.time()
-                result = (end - start)
+                result = end - start
                 correct = ("Well done you got it right. Your score is " + str(score), "Time used untile now :" +str(math.floor(result)), "seconds")
                 image = "./images/tick.gif"
                 msgbox(title="CORRECT", image=image, msg=correct)
 
             else:
                 end = time.time()
-                result = (end - start)
+                result = end - start
                 wrong = ("I'm sorry that's the wrong answer", "Time used untile now :" +str(math.floor(result)), "seconds")
                 image = "./images/cross.gif"
                 msgbox(title="Wrong Answer", image=image, msg=wrong)
