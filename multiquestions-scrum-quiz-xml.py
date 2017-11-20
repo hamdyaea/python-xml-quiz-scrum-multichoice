@@ -16,8 +16,7 @@ pygame.init()
 
 
 import xml.etree.ElementTree as ET
-tree = ET.parse("./xml/scrum.xml")
-root = tree.getroot()
+
 
 
 score = 0
@@ -31,6 +30,12 @@ start_msg = "Would you like to play the Scrum Master Quiz?"
 start = time.time()
 game_start = buttonbox(title=start_title,image=logo,msg=start_msg,choices=play)
 player_name = enterbox(msg="Enter your name.", title="Player name")
+game_xml = fileopenbox(msg="Select Your Test", title="Test Selection", default="./xml/*.xml*", multiple=False)
+
+
+tree = ET.parse(game_xml)
+root = tree.getroot()
+
 
 if game_start != "No":
 
