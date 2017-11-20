@@ -87,7 +87,7 @@ if game_start != "No":
                 msgbox(title="Wrong Answer", image=image, msg=wrong)
 
 end = time.time()
-result = (end - start)
+result = end - start
 
 gameover_good = "./images/logo.gif"
 gameover_bad = "./images/logo.gif"
