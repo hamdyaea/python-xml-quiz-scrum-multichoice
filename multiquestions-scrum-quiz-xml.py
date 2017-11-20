@@ -90,8 +90,8 @@ if game_start != "No":
 end = time.time()
 result = end - start
 
-gameover_good = "./images/logo.gif"
-gameover_bad = "./images/logo.gif"
+gameover_good = "./images/logo-happy.gif"
+gameover_bad = "./images/logo-sad.gif"
 
 game_over_title = "Scrum Master Quiz"
 msg_bad = ("You have not passed the exam ")+str(player_name)+str(" , your score is (under 85%) : ")+str(score)+str( ". Total time used :" +str(math.floor(result))+str(" seconds"))
