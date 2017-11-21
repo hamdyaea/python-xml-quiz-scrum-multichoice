@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-    <all-questions success-rate = "85" number_questions = "80"><!-- %to win the test in number  --><!-- Number of questions in the exam -->
+    <all-questions success-rate = "85" number_questions = "4"><!-- %to win the test in number  --><!-- Number of questions in the exam -->
 		<question msg = "An organization has decided to adopt Scrum, but management wants to change the terminology to fit with terminology already used. What will likely happen if this is done?" type = "unique">
 			<answer text = "All answers apply." valid = "true"/>
 			<answer text = "Without a new vocabulary as a reminder of the change, very little change may actually happen." valid = "false"/>
@@ -25,4 +25,3 @@
 			<answer text = "Analysis, design, programming, testing and documentation." valid = "false"/>
 		</question>
 	</all-questions>
-

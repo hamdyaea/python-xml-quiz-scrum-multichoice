@@ -74,6 +74,7 @@ random.shuffle(ListQuestions)
 
 
 rate = int(root.attrib.get("success-rate"))
+MaxQuestions = int(root.attrib.get("number_questions"))
 
 if game_start != "No":
 
@@ -81,13 +82,16 @@ if game_start != "No":
 
     msgbox(title="Let the Scrum Master Quizz begin",image=logo,msg="Your score is "+str(score))
 
+    NumberSelected=integerbox(title="Number of questions", msg=" Enter how many questions you want for the quiz ? Max : " +str(MaxQuestions), default="1",upperbound=MaxQuestions)
+
     for question in ListQuestions:
         anstrue = []
         ans = []
-
+        counter = 0
 
         for answer in question.answer:
             ans.append(answer.text)
+
 
 
             if answer.valid:
@@ -99,6 +103,7 @@ if game_start != "No":
             if userAnswer in anstrue:
                 score = score + 1
                 nombre = nombre +1
+                counter = counter +1
                 end = time.time()
                 result = end - start
                 correct = ("Well done you got it right. Your score is " +str(score)+str( ". Time used until now : " +str(math.floor(result))+str(" seconds")))
@@ -107,13 +112,18 @@ if game_start != "No":
 
             elif userAnswer==None:
                 sys.exit(0)
+
+
             else:
                 end = time.time()
                 result = end - start
                 nombre = nombre + 1
+                counter = counter +1
                 wrong = ("I'm sorry that's the wrong answer, your time used until now is " + str(math.floor(result)) +str(" seconds"))
                 image = "./images/cross.gif"
                 msgbox(title="Wrong Answer", image=image, msg=wrong)
+        if counter==NumberSelected:
+            break
 
         else:
             userAnswer = multchoicebox(msg,"question",ans)
@@ -123,17 +133,26 @@ if game_start != "No":
                 nombre = nombre +1
                 end = time.time()
                 result = end - start
+                counter = counter +1
                 correct = ("Well done you got it right. Your score is " + str(score)+str( ". Time used until now : " +str(math.floor(result))+str(" seconds")))
                 image = "./images/tick.gif"
                 msgbox(title="CORRECT", image=image, msg=correct)
+
+
 
             else:
                 end = time.time()
                 result = end - start
                 nombre = nombre + 1
+                counter = counter +1
                 wrong = ("I'm sorry that's the wrong answer"+str(". Time used until now : " +str(math.floor(result))+str(" seconds")))
                 image = "./images/cross.gif"
                 msgbox(title="Wrong Answer", image=image, msg=wrong)
+
+        if counter==NumberSelected:
+            break
+
+
 
 end = time.time()
 result = end - start
