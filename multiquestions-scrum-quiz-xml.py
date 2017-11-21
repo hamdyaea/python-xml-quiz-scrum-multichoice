@@ -82,7 +82,7 @@ if game_start != "No":
 
     msgbox(title="Let the Scrum Master Quizz begin",image=logo,msg="Your score is "+str(score))
 
-    NumberSelected=integerbox(title="Number of questions", msg=" Enter how many questions you want for the quiz ? Max : " +str(MaxQuestions), default="1",upperbound=MaxQuestions)
+    NumberSelected=integerbox(title="Number of questions", msg=" Enter how many questions you want for the quiz ? Max : " +str(MaxQuestions), default="1",lowerbound=1,upperbound=MaxQuestions)
 
     for question in ListQuestions:
         anstrue = []
