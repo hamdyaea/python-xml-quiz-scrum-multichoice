@@ -82,12 +82,14 @@ if game_start != "No":
 
     msgbox(title="Let the Scrum Master Quizz begin",image=logo,msg="Your score is "+str(score))
 
-    NumberSelected=integerbox(title="Number of questions", msg=" Enter how many questions you want for the quiz ? Max : " +str(MaxQuestions), default="1",lowerbound=1,upperbound=MaxQuestions)
+    NumberSelected = integerbox(title="Number of questions", msg=" Enter how many questions you want for the quiz ? Max : " +str(MaxQuestions), default=MaxQuestions,lowerbound=1,upperbound=MaxQuestions)
+
+    counter = 0
 
     for question in ListQuestions:
         anstrue = []
         ans = []
-        counter = 0
+
 
         for answer in question.answer:
             ans.append(answer.text)
@@ -110,6 +112,7 @@ if game_start != "No":
                 image = "./images/tick.gif"
                 msgbox(title="CORRECT", image=image, msg=correct)
 
+
             elif userAnswer==None:
                 sys.exit(0)
 
@@ -122,8 +125,8 @@ if game_start != "No":
                 wrong = ("I'm sorry that's the wrong answer, your time used until now is " + str(math.floor(result)) +str(" seconds"))
                 image = "./images/cross.gif"
                 msgbox(title="Wrong Answer", image=image, msg=wrong)
-        if counter==NumberSelected:
-            break
+
+
 
         else:
             userAnswer = multchoicebox(msg,"question",ans)
@@ -140,6 +143,7 @@ if game_start != "No":
 
 
 
+
             else:
                 end = time.time()
                 result = end - start
@@ -148,9 +152,9 @@ if game_start != "No":
                 wrong = ("I'm sorry that's the wrong answer"+str(". Time used until now : " +str(math.floor(result))+str(" seconds")))
                 image = "./images/cross.gif"
                 msgbox(title="Wrong Answer", image=image, msg=wrong)
-
-        if counter==NumberSelected:
+        if counter == NumberSelected:
             break
+
 
 
 
