@@ -1,5 +1,7 @@
 # Quiz Scrum multichoice in Python 3.
 
+![Screenshot](screenshot.png)
+
 ## What you need to make it work :
 pygame and easygui at least version 0.98  
 ```sh
