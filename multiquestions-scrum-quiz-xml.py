@@ -12,6 +12,8 @@ import sys
 
 import pygame
 
+import random
+
 pygame.init()
 
 
@@ -37,6 +39,39 @@ game_xml = fileopenbox(msg="Select Your Test", title="Test Selection", default="
 tree = ET.parse(game_xml)
 root = tree.getroot()
 
+class Question:
+    def __init__(self,question, type):
+        self.question=question
+        self.type=type
+        self.answer=[]
+
+    def AddAnswer(self, answer):
+        self.answer.append(answer)
+
+class Answer:
+    def __init__(self, text, valid):
+        self.text=text
+        self.valid=valid
+
+ListQuestions=[]
+
+for XMLquestion in root:
+    msg = XMLquestion.attrib.get("msg")
+    type = XMLquestion.attrib.get("type")
+    question = Question(msg, type)
+
+    ListQuestions.append(question)
+
+
+
+    for XMLanswer in XMLquestion:
+        ans=Answer(XMLanswer.attrib.get("text"),XMLanswer.attrib.get("valid") == "true")
+        question.AddAnswer(ans)
+
+random.shuffle(ListQuestions)
+
+
+
 
 rate = int(root.attrib.get("success-rate"))
 
@@ -46,19 +81,20 @@ if game_start != "No":
 
     msgbox(title="Let the Scrum Master Quizz begin",image=logo,msg="Your score is "+str(score))
 
-    for question in root:
+    for question in ListQuestions:
+        anstrue = []
         ans = []
-        anstrue =[]
-        msg = question.attrib.get("msg")
-        type = question.attrib.get("type")
 
 
+        for answer in question.answer:
+            ans.append(answer.text)
 
-        for answer in question:
-            ans.append(answer.attrib.get("text"))
-            if answer.attrib.get("valid") == "true":
-                anstrue.append(answer.attrib.get("text"))
-        if type == "unique":
+
+            if answer.valid:
+                anstrue.append(answer.text)
+
+
+        if question.type == "unique":
             userAnswer = choicebox(msg,"question",ans)
             if userAnswer in anstrue:
                 score = score + 1
@@ -82,7 +118,6 @@ if game_start != "No":
         else:
             userAnswer = multchoicebox(msg,"question",ans)
 
-            print(anstrue)
             if userAnswer==anstrue:
                 score = score + 1
                 nombre = nombre +1
