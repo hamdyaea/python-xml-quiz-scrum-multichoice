@@ -22,7 +22,7 @@ import xml.etree.ElementTree as ET
 score = 0
 nombre = 0 #number of questions answered
 
-logo = "./images/quiz-logo.jpg"
+logo = "./images/quiz-logo.gif"
 
 play = ["Yes","No"]
 
