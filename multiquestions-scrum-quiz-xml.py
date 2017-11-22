@@ -28,7 +28,10 @@ player_name = enterbox(msg="Enter your name.", title="Player name", default="Pla
 
 
 game_xml = fileopenbox(msg="Select Your Test", title="Test Selection", default="./xml/*.xml*", multiple=False)
-game_start = buttonbox(title=start_title,image=logo,msg=start_msg,choices=play)
+if game_xml == None:
+    sys.exit(0)
+else:
+    game_start = buttonbox(title=start_title,image=logo,msg=start_msg,choices=play)
 
 tree = ET.parse(game_xml)
 root = tree.getroot()
