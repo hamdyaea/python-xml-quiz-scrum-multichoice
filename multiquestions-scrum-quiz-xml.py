@@ -23,7 +23,10 @@ start_title = "Welcome to The Scrum Master Quiz"
 start_msg = "Can we begin the Quiz now ?"
 
 
-player_name = enterbox(msg="Enter your name.", title="Player name")
+
+player_name = enterbox(msg="Enter your name.", title="Player name", default="Player")
+
+
 game_xml = fileopenbox(msg="Select Your Test", title="Test Selection", default="./xml/*.xml*", multiple=False)
 game_start = buttonbox(title=start_title,image=logo,msg=start_msg,choices=play)
 
