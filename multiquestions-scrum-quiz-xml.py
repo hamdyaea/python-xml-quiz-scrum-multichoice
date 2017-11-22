@@ -85,7 +85,8 @@ if game_start != "No":
     NumberSelected = integerbox(title="Number of questions", msg=" Enter how many questions you want for the quiz ? Max : " +str(MaxQuestions), default=MaxQuestions,lowerbound=1,upperbound=MaxQuestions)
 
     counter = 0
-
+    ListCorrectQuestions = []
+    ListIncorrectQuestions = []
     for question in ListQuestions:
         anstrue = []
         ans = []
@@ -111,13 +112,14 @@ if game_start != "No":
                 correct = ("Well done you got it right. Your score is " +str(score)+str( ". Time used until now : " +str(math.floor(result))+str(" seconds")))
                 image = "./images/tick.gif"
                 msgbox(title="CORRECT", image=image, msg=correct)
-
+                ListCorrectQuestions.append(question)
 
             elif userAnswer==None:
                 sys.exit(0)
 
 
             else:
+                #
                 end = time.time()
                 result = end - start
                 nombre = nombre + 1
@@ -125,6 +127,7 @@ if game_start != "No":
                 wrong = ("I'm sorry that's the wrong answer, your time used until now is " + str(math.floor(result)) +str(" seconds"))
                 image = "./images/cross.gif"
                 msgbox(title="Wrong Answer", image=image, msg=wrong)
+                ListIncorrectQuestions.append(question)
 
 
 
@@ -140,7 +143,7 @@ if game_start != "No":
                 correct = ("Well done you got it right. Your score is " + str(score)+str( ". Time used until now : " +str(math.floor(result))+str(" seconds")))
                 image = "./images/tick.gif"
                 msgbox(title="CORRECT", image=image, msg=correct)
-
+                ListCorrectQuestions.append(question)
 
 
 
@@ -152,8 +155,10 @@ if game_start != "No":
                 wrong = ("I'm sorry that's the wrong answer"+str(". Time used until now : " +str(math.floor(result))+str(" seconds")))
                 image = "./images/cross.gif"
                 msgbox(title="Wrong Answer", image=image, msg=wrong)
+                ListIncorrectQuestions.append(question)
         if counter == NumberSelected:
             break
+
 
 
 
@@ -167,6 +172,9 @@ gameover_bad = "./images/logo-sad.gif"
 game_over_title = "Scrum Master Quiz"
 
 total_score = 100*score/nombre
+
+
+
 msg_bad = ("You have not passed the exam ")+str(player_name)+str(" , your score is : ") +str(total_score)+str(" Success rate = ")+str(rate) +str( " Total time used :" +str(math.floor(result))+str(" seconds"))
 msg_good = ("You have passed the exam ")+str(player_name)+str(" , your score is : "+str(total_score))+str(" Success rate = ")+str(rate) +str( " Total time used :" +str(math.floor(result))+str(" seconds"))
 if rate > total_score:
@@ -174,3 +182,8 @@ if rate > total_score:
 else:
     game_over = msgbox(title=game_over_title,image=gameover_good,msg= msg_good)
 
+TotalIncorAns = ""
+for IncorrectAnswered in ListIncorrectQuestions:
+    IncorrectAnswered = IncorrectAnswered
+    TotalIncorAns=TotalIncorAns+IncorrectAnswered.question+"\n\n\n"
+textbox(msg="List of wrong answers", title="Wrong questions", text=TotalIncorAns)
