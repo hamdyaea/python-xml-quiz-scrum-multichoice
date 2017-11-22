@@ -175,19 +175,26 @@ total_score = 100*score/nombre
 
 
 
-msg_bad = ("You have not passed the exam ")+str(player_name)+str(" , your score is : ") +str(total_score)+str("\nSuccess rate = ")+str(rate) +str( "\nTotal time used :" +str(math.floor(result))+str(" seconds"))
+
+msg_bad = ("You have not passed the exam ")+str(player_name)+str(" , your score is : ") +str(total_score)+str("\nSuccess rate = ")+str(rate) +str( "\nTotal time used :") +str(math.floor(result))+str(" seconds")+str("\n\n\nMore details about your exam ?")
 msg_good = ("You have passed the exam ")+str(player_name)+str(" , your score is : "+str(total_score))+str("\nSuccess rate = ")+str(rate) +str( "\nTotal time used :" +str(math.floor(result))+str(" seconds"))
-if rate > total_score:
-    game_over = msgbox(title=game_over_title,image=gameover_bad,msg= msg_bad)
 
-    TotalIncorAns = ""
-    for IncorrectAnswered in ListIncorrectQuestions:
-        IncorrectAnswered = IncorrectAnswered
-        TotalIncorAns = TotalIncorAns + IncorrectAnswered.question + "\n\n\n"
+if rate < total_score:
+    game_over = msgbox(title=game_over_title, image=gameover_good, msg=msg_good)
 
-    textbox(msg="List of wrong answers", title="Wrong questions", text=TotalIncorAns)
-    
+
 else:
-    game_over = msgbox(title=game_over_title,image=gameover_good,msg= msg_good)
+    choices_det = ("More Details", "Quit the quiz")
+    game_over = buttonbox(msg=msg_bad, title=game_over_title, image=gameover_bad, choices=choices_det)
+
+    if game_over == "More Details":
+        TotalIncorAns = ""
+        for IncorrectAnswered in ListIncorrectQuestions:
+            IncorrectAnswered = IncorrectAnswered
+            TotalIncorAns = TotalIncorAns + IncorrectAnswered.question + "\n\n\n"
+        textbox(msg="List of wrong answers", title="Wrong questions", text=TotalIncorAns)
+
+    else:
+        sys.exit(0)
 
 
