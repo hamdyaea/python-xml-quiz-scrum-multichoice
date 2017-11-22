@@ -20,12 +20,12 @@ logo = "./images/quiz-logo.gif"
 play = ["Yes","No"]
 
 start_title = "Welcome to The Scrum Master Quiz"
-start_msg = "Would you like to play the Scrum Master Quiz?"
-start = time.time()
-game_start = buttonbox(title=start_title,image=logo,msg=start_msg,choices=play)
+start_msg = "Can we begin the Quiz now ?"
+
+
 player_name = enterbox(msg="Enter your name.", title="Player name")
 game_xml = fileopenbox(msg="Select Your Test", title="Test Selection", default="./xml/*.xml*", multiple=False)
-
+game_start = buttonbox(title=start_title,image=logo,msg=start_msg,choices=play)
 
 tree = ET.parse(game_xml)
 root = tree.getroot()
@@ -66,6 +66,11 @@ random.shuffle(ListQuestions)
 
 rate = int(root.attrib.get("success-rate"))
 MaxQuestions = int(root.attrib.get("number_questions"))
+
+start = time.time()
+
+if game_start == "No":
+    sys.exit(0)
 
 if game_start != "No":
 
