@@ -3,23 +3,16 @@
 
 from easygui import *
 
-import time
-import math
-
 #please use at least version 0.98  with #sudo python3 -m pip install --upgrade easygui
 
+import time
+import math
 import sys
-
 import pygame
-
 import random
-
-pygame.init()
-
-
 import xml.etree.ElementTree as ET
 
-
+pygame.init()
 
 score = 0
 nombre = 0 #number of questions answered
