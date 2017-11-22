@@ -96,7 +96,7 @@ if game_start != "No":
 
         for answer in question.answer:
             ans.append(answer.text)
-
+            random.shuffle(ans)
 
 
             if answer.valid:
