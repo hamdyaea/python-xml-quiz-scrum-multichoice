@@ -8,11 +8,9 @@ from easygui import *
 import time
 import math
 import sys
-import pygame
 import random
 import xml.etree.ElementTree as ET
 
-pygame.init()
 
 score = 0
 nombre = 0 #number of questions answered
