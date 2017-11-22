@@ -179,12 +179,15 @@ msg_bad = ("You have not passed the exam ")+str(player_name)+str(" , your score 
 msg_good = ("You have passed the exam ")+str(player_name)+str(" , your score is : "+str(total_score))+str("\nSuccess rate = ")+str(rate) +str( "\nTotal time used :" +str(math.floor(result))+str(" seconds"))
 if rate > total_score:
     game_over = msgbox(title=game_over_title,image=gameover_bad,msg= msg_bad)
+
+    TotalIncorAns = ""
+    for IncorrectAnswered in ListIncorrectQuestions:
+        IncorrectAnswered = IncorrectAnswered
+        TotalIncorAns = TotalIncorAns + IncorrectAnswered.question + "\n\n\n"
+
+    textbox(msg="List of wrong answers", title="Wrong questions", text=TotalIncorAns)
+    
 else:
     game_over = msgbox(title=game_over_title,image=gameover_good,msg= msg_good)
 
-TotalIncorAns = ""
-for IncorrectAnswered in ListIncorrectQuestions:
-    IncorrectAnswered = IncorrectAnswered
-    TotalIncorAns=TotalIncorAns+IncorrectAnswered.question+"\n\n\n"
 
-textbox(msg="List of wrong answers", title="Wrong questions", text=TotalIncorAns)
