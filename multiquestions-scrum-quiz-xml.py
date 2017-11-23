@@ -10,6 +10,7 @@ import math
 import sys
 import random
 import xml.etree.ElementTree as ET
+from class_questions import *
 
 
 score = 0
@@ -36,19 +37,7 @@ else:
 tree = ET.parse(game_xml)
 root = tree.getroot()
 
-class Question:
-    def __init__(self,question, type):
-        self.question=question
-        self.type=type
-        self.answer=[]
 
-    def AddAnswer(self, answer):
-        self.answer.append(answer)
-
-class Answer:
-    def __init__(self, text, valid):
-        self.text=text
-        self.valid=valid
 
 ListQuestions=[]
 
