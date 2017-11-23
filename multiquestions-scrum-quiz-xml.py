@@ -242,7 +242,8 @@ if game_start != "No":
                                 image = "./images/cross.gif"
                                 msgbox(title="Wrong Answer", image=image, msg=wrong)
                                 ListIncorrectQuestions.append(questionBookmark)
-
+                else:
+                    nombre = 1
             break
 
 
