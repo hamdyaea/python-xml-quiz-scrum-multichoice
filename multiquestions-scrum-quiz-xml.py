@@ -137,8 +137,8 @@ if game_start != "No":
             userAnswer = multchoicebox(question.question,"question",ans)
             userAnswer.sort()
             anstrue.sort()
-            print(userAnswer)
-            print(anstrue)
+            #print(userAnswer)
+            #print(anstrue)
             if userAnswer==anstrue:
                 score = score + 1
                 nombre = nombre + 1
@@ -225,8 +225,8 @@ if game_start != "No":
                             userAnswerBook = multchoicebox(questionBookmark.question, "question", ans)
                             userAnswerBook.sort()
                             anstrueBook.sort()
-                            print(userAnswerBook)
-                            print(anstrueBook)
+                            #print(userAnswerBook)
+                            #print(anstrueBook)
                             if userAnswerBook == anstrueBook:
                                 score = score + 1
 
