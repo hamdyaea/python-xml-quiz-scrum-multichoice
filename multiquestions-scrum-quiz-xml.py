@@ -12,9 +12,10 @@ import random
 import xml.etree.ElementTree as ET
 from class_questions import *
 
+total_score = 0
 
 score = 0
-nombre = 0 #number of questions answered
+nombre = 0 #number of questions answeredl
 
 logo = "./images/quiz-logo.gif"
 
@@ -60,8 +61,6 @@ for XMLquestion in root:
 random.shuffle(ListQuestions)
 
 
-
-
 rate = int(root.attrib.get("success-rate"))
 MaxQuestions = int(root.attrib.get("number_questions"))
 
@@ -91,7 +90,6 @@ if game_start != "No":
             random.shuffle(ans)
 
 
-
             if answer.valid:
                 anstrue.append(answer.text)
 
@@ -99,11 +97,13 @@ if game_start != "No":
         if question.type == "unique":
             ans.append(bookmark)
 
-            userAnswer = choicebox(msg, "question", ans)
+            userAnswer = choicebox(question.question, "question", ans)
 
             if userAnswer == bookmark:
                 counter = counter + 1
+                nombre = nombre + 1
                 ListBookmark.append(question)
+                ListIncorrectQuestions.append(question)
 
             elif userAnswer in anstrue:
                 score = score + 1
@@ -113,7 +113,7 @@ if game_start != "No":
                 result = end - start
                 correct = ("Well done you got it right. Your score is " +str(score)+str( ". Time used until now : " +str(math.floor(result))+str(" seconds")))
                 image = "./images/tick.gif"
-                msgbox(title="CORRECT", image=image, msg=correct)
+                #msgbox(title="CORRECT", image=image, msg=correct)
                 ListCorrectQuestions.append(question)
 
             elif userAnswer==None:
@@ -127,30 +127,34 @@ if game_start != "No":
                 counter = counter +1
                 wrong = ("I'm sorry that's the wrong answer, your time used until now is " + str(math.floor(result)) +str(" seconds"))
                 image = "./images/cross.gif"
-                msgbox(title="Wrong Answer", image=image, msg=wrong)
+                #msgbox(title="Wrong Answer", image=image, msg=wrong)
                 ListIncorrectQuestions.append(question)
 
 
 
         else:
             ans.append(bookmark)
-            userAnswer = multchoicebox(msg,"question",ans)
-
-
+            userAnswer = multchoicebox(question.question,"question",ans)
+            userAnswer.sort()
+            anstrue.sort()
+            print(userAnswer)
+            print(anstrue)
             if userAnswer==anstrue:
                 score = score + 1
-                nombre = nombre +1
+                nombre = nombre + 1
                 end = time.time()
                 result = end - start
                 counter = counter +1
                 correct = ("Well done you got it right. Your score is " + str(score)+str( ". Time used until now : " +str(math.floor(result))+str(" seconds")))
                 image = "./images/tick.gif"
-                msgbox(title="CORRECT", image=image, msg=correct)
+                #msgbox(title="CORRECT", image=image, msg=correct)
                 ListCorrectQuestions.append(question)
 
             elif bookmark in userAnswer:
                 counter = counter + 1
+                nombre = nombre + 1
                 ListBookmark.append(question)
+                ListIncorrectQuestions.append(question)
 
             elif userAnswer==None:
                 sys.exit(0)
@@ -163,7 +167,7 @@ if game_start != "No":
                 counter = counter +1
                 wrong = ("I'm sorry that's the wrong answer"+str(". Time used until now : " +str(math.floor(result))+str(" seconds")))
                 image = "./images/cross.gif"
-                msgbox(title="Wrong Answer", image=image, msg=wrong)
+                #msgbox(title="Wrong Answer", image=image, msg=wrong)
                 ListIncorrectQuestions.append(question)
 
         if counter == NumberSelected:
@@ -171,31 +175,33 @@ if game_start != "No":
                 question_bookmark = buttonbox(title="Bookmarked Questions", msg = "Do you want to replay the bookmarked questions ?", choices=("Yes","No"),default_choice="Yes",cancel_choice="No")
                 if question_bookmark == "Yes":
                     for questionBookmark in ListBookmark:
-                        anstrue = []
+                        del ans[:]
                         ans = []
+                        anstrueBook = []
                         for answer in questionBookmark.answer:
                             ans.append(answer.text)
-                            random.shuffle(ans)
+
+
 
                             if answer.valid:
-                                anstrue.append(answer.text)
+                                anstrueBook.append(answer.text)
 
                         if questionBookmark.type == "unique":
 
 
-                            userAnswer = choicebox(msg, "question", ans)
+                            userAnswer = choicebox(questionBookmark.question, "question", ans)
 
 
-                            if userAnswer in anstrue:
+                            if userAnswer in anstrueBook:
                                 score = score + 1
-                                nombre = nombre + 1
 
                                 end = time.time()
                                 result = end - start
                                 correct = ("Well done you got it right. Your score is " + str(score) + str(
                                     ". Time used until now : " + str(math.floor(result)) + str(" seconds")))
                                 image = "./images/tick.gif"
-                                msgbox(title="CORRECT", image=image, msg=correct)
+                                #msgbox(title="CORRECT", image=image, msg=correct)
+                                ListIncorrectQuestions.remove(questionBookmark)
                                 ListCorrectQuestions.append(questionBookmark)
 
                             elif userAnswer == None:
@@ -205,29 +211,33 @@ if game_start != "No":
                             else:
                                 end = time.time()
                                 result = end - start
-                                nombre = nombre + 1
+
 
                                 wrong = ("I'm sorry that's the wrong answer, your time used until now is " + str(math.floor(result)) + str(
                                     " seconds"))
                                 image = "./images/cross.gif"
-                                msgbox(title="Wrong Answer", image=image, msg=wrong)
+                                #msgbox(title="Wrong Answer", image=image, msg=wrong)
                                 ListIncorrectQuestions.append(questionBookmark)
 
 
 
                         else:
-                            userAnswer = multchoicebox(msg, "question", ans)
-
-                            if userAnswer == anstrue:
+                            userAnswerBook = multchoicebox(questionBookmark.question, "question", ans)
+                            userAnswerBook.sort()
+                            anstrueBook.sort()
+                            print(userAnswerBook)
+                            print(anstrueBook)
+                            if userAnswerBook == anstrueBook:
                                 score = score + 1
-                                nombre = nombre + 1
+
                                 end = time.time()
                                 result = end - start
 
                                 correct = ("Well done you got it right. Your score is " + str(score) + str(
                                     ". Time used until now : " + str(math.floor(result)) + str(" seconds")))
                                 image = "./images/tick.gif"
-                                msgbox(title="CORRECT", image=image, msg=correct)
+                                #msgbox(title="CORRECT", image=image, msg=correct)
+                                ListIncorrectQuestions.remove(questionBookmark)
                                 ListCorrectQuestions.append(questionBookmark)
 
 
@@ -235,15 +245,17 @@ if game_start != "No":
                             else:
                                 end = time.time()
                                 result = end - start
-                                nombre = nombre + 1
+
 
                                 wrong = ("I'm sorry that's the wrong answer" + str(
                                     ". Time used until now : " + str(math.floor(result)) + str(" seconds")))
                                 image = "./images/cross.gif"
-                                msgbox(title="Wrong Answer", image=image, msg=wrong)
-                                ListIncorrectQuestions.append(questionBookmark)
-                else:
-                    nombre = 1
+                                #msgbox(title="Wrong Answer", image=image, msg=wrong)
+                                #ListIncorrectQuestions.append(questionBookmark)
+
+
+
+
             break
 
 
@@ -258,7 +270,12 @@ gameover_bad = "./images/logo-sad.gif"
 
 game_over_title = "Scrum Master Quiz"
 
-total_score = 100*score/nombre
+if score <= 0:
+    total_score = 0
+elif nombre <=0:
+    total_score = 0
+else:
+    total_score = 100*score/nombre
 
 
 
