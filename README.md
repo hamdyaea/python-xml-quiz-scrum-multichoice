@@ -1,3 +1,5 @@
+![Awesome](awesome.svg)    ![Python](python.png)
+
 # Quiz Scrum multichoice in Python 3.
 
 ![Screenshot](screenshot.gif)
