@@ -1,304 +1,96 @@
-#!/usr/local/bin/python
-# Developer : Hamdy Abou El Anein
-
-from easygui import *
-
-#please use at least version 0.98  with #sudo python3 -m pip install --upgrade easygui
-
-import time
-import math
-import sys
-import random
+#!/usr/bin/env python3
+# Developer: Hamdy Abou El Anein
+# Contact: info@daylightlinux.ch
+# SPDX-License-Identifier: GPL-3.0-only
+"""XML-driven Scrum quiz with single- and multiple-answer questions."""
+from __future__ import annotations
+from dataclasses import dataclass
+from pathlib import Path
+import tkinter as tk
+from tkinter import ttk
 import xml.etree.ElementTree as ET
-from class_questions import *
 
-total_score = 0
+QUESTIONS_FILE = Path(__file__).resolve().parent / "questions.xml"
 
-score = 0
-nombre = 0 #number of questions answeredl
+@dataclass(frozen=True)
+class Question:
+    prompt: str
+    options: tuple[str, ...]
+    correct: frozenset[int]
+    multi: bool
 
-logo = "./images/quiz-logo.gif"
+def load_questions(path: Path = QUESTIONS_FILE) -> list[Question]:
+    root = ET.parse(path).getroot()
+    questions = []
+    for element in root.findall("question"):
+        answers = element.findall("answer")
+        options = tuple(answer.get("text", "") for answer in answers)
+        correct = frozenset(i for i, answer in enumerate(answers) if answer.get("valid", "").lower() == "true")
+        multi = element.get("type") == "multi"
+        if not element.get("msg") or not options or not correct or (not multi and len(correct) != 1):
+            raise ValueError("Invalid question definition")
+        questions.append(Question(element.get("msg", ""), options, correct, multi))
+    if not questions:
+        raise ValueError("No questions found")
+    return questions
 
-play = ["Yes","No"]
+def grade(questions: list[Question], answers: dict[int, set[int]]) -> tuple[int, int]:
+    return sum(answers.get(i, set()) == q.correct for i, q in enumerate(questions)), len(questions)
 
-start_title = "Welcome to The Scrum Master Quiz"
-start_msg = "Can we begin the Quiz now ?"
+class Quiz(ttk.Frame):
+    def __init__(self, root: tk.Tk, questions: list[Question]):
+        super().__init__(root, padding=20)
+        self.pack(fill="both", expand=True)
+        self.questions = questions
+        self.index = 0
+        self.answers: dict[int, set[int]] = {}
+        self.title = tk.StringVar()
+        self.status = tk.StringVar()
+        ttk.Label(self, textvariable=self.title, wraplength=680, font=("sans", 12)).pack(pady=12)
+        self.options = ttk.Frame(self)
+        self.options.pack(fill="x", expand=True)
+        ttk.Label(self, textvariable=self.status).pack(pady=8)
+        ttk.Button(self, text="Next / Finish", command=self.next).pack()
+        self.show()
 
+    def show(self) -> None:
+        q = self.questions[self.index]
+        self.title.set(q.prompt)
+        self.status.set(f"Question {self.index + 1}/{len(self.questions)} — " + ("select all correct" if q.multi else "select one"))
+        for widget in self.options.winfo_children():
+            widget.destroy()
+        self.vars = []
+        for i, label in enumerate(q.options):
+            var = tk.BooleanVar(value=i in self.answers.get(self.index, set()))
+            self.vars.append(var)
+            ttk.Checkbutton(self.options, text=label, variable=var, command=self.remember).pack(anchor="w", pady=6)
+    def remember(self) -> None:
+        chosen = {i for i, var in enumerate(self.vars) if var.get()}
+        if not self.questions[self.index].multi and len(chosen) > 1:
+            last = next((i for i, var in enumerate(self.vars) if var.get() and i not in self.answers.get(self.index, set())), min(chosen))
+            chosen = {last}
+            for i, var in enumerate(self.vars):
+                var.set(i in chosen)
+        self.answers[self.index] = chosen
 
-
-player_name = enterbox(msg="Enter your name.", title="Player name", default="Player")
-
-
-game_xml = fileopenbox(msg="Select Your Test", title="Test Selection", default="./xml/*.xml*", multiple=False)
-if game_xml == None:
-    sys.exit(0)
-else:
-    game_start = buttonbox(title=start_title,image=logo,msg=start_msg,choices=play)
-
-tree = ET.parse(game_xml)
-root = tree.getroot()
-
-bookmark = "Bookmark this question"
-
-ListBookmark = []
-
-ListQuestions=[]
-
-
-for XMLquestion in root:
-    msg = XMLquestion.attrib.get("msg")
-    type = XMLquestion.attrib.get("type")
-    question = Question(msg, type)
-
-    ListQuestions.append(question)
-
-
-
-    for XMLanswer in XMLquestion:
-        ans=Answer(XMLanswer.attrib.get("text"),XMLanswer.attrib.get("valid") == "true")
-        question.AddAnswer(ans)
-
-random.shuffle(ListQuestions)
-
-
-rate = int(root.attrib.get("success-rate"))
-MaxQuestions = int(root.attrib.get("number_questions"))
-
-start = time.time()
-
-if game_start == "No":
-    sys.exit(0)
-
-if game_start != "No":
-
-
-
-    msgbox(title="Let the Scrum Master Quizz begin",image=logo,msg="Your score is "+str(score))
-
-    NumberSelected = integerbox(title="Number of questions", msg=" Enter how many questions you want for the quiz ? Max : " +str(MaxQuestions), default=MaxQuestions,lowerbound=1,upperbound=MaxQuestions)
-
-    counter = 0
-    ListCorrectQuestions = []
-    ListIncorrectQuestions = []
-    for question in ListQuestions:
-        anstrue = []
-        ans = []
-
-
-        for answer in question.answer:
-            ans.append(answer.text)
-            random.shuffle(ans)
-
-
-            if answer.valid:
-                anstrue.append(answer.text)
-
-
-        if question.type == "unique":
-            ans.append(bookmark)
-
-            userAnswer = choicebox(question.question, "question", ans)
-
-            if userAnswer == bookmark:
-                counter = counter + 1
-                nombre = nombre + 1
-                ListBookmark.append(question)
-                ListIncorrectQuestions.append(question)
-
-            elif userAnswer in anstrue:
-                score = score + 1
-                nombre = nombre +1
-                counter = counter +1
-                end = time.time()
-                result = end - start
-                correct = ("Well done you got it right. Your score is " +str(score)+str( ". Time used until now : " +str(math.floor(result))+str(" seconds")))
-                image = "./images/tick.gif"
-                #msgbox(title="CORRECT", image=image, msg=correct)
-                ListCorrectQuestions.append(question)
-
-            elif userAnswer==None:
-                sys.exit(0)
-
-
-            else:
-                end = time.time()
-                result = end - start
-                nombre = nombre + 1
-                counter = counter +1
-                wrong = ("I'm sorry that's the wrong answer, your time used until now is " + str(math.floor(result)) +str(" seconds"))
-                image = "./images/cross.gif"
-                #msgbox(title="Wrong Answer", image=image, msg=wrong)
-                ListIncorrectQuestions.append(question)
-
-
-
+    def next(self) -> None:
+        if self.index + 1 < len(self.questions):
+            self.index += 1
+            self.show()
         else:
-            ans.append(bookmark)
-            userAnswer = multchoicebox(question.question,"question",ans)
-            userAnswer.sort()
-            anstrue.sort()
-            #print(userAnswer)
-            #print(anstrue)
-            if userAnswer==anstrue:
-                score = score + 1
-                nombre = nombre + 1
-                end = time.time()
-                result = end - start
-                counter = counter +1
-                correct = ("Well done you got it right. Your score is " + str(score)+str( ". Time used until now : " +str(math.floor(result))+str(" seconds")))
-                image = "./images/tick.gif"
-                #msgbox(title="CORRECT", image=image, msg=correct)
-                ListCorrectQuestions.append(question)
+            points, total = grade(self.questions, self.answers)
+            self.title.set(f"Score: {points}/{total}")
+            self.status.set("Historical training questions; consult the current Scrum Guide.")
+            for widget in self.options.winfo_children():
+                widget.destroy()
 
-            elif bookmark in userAnswer:
-                counter = counter + 1
-                nombre = nombre + 1
-                ListBookmark.append(question)
-                ListIncorrectQuestions.append(question)
+def main() -> None:
+    questions = load_questions()
+    root = tk.Tk()
+    root.title("Scrum XML Quiz")
+    root.geometry("800x490")
+    Quiz(root, questions)
+    root.mainloop()
 
-            elif userAnswer==None:
-                sys.exit(0)
-
-
-            else:
-                end = time.time()
-                result = end - start
-                nombre = nombre + 1
-                counter = counter +1
-                wrong = ("I'm sorry that's the wrong answer"+str(". Time used until now : " +str(math.floor(result))+str(" seconds")))
-                image = "./images/cross.gif"
-                #msgbox(title="Wrong Answer", image=image, msg=wrong)
-                ListIncorrectQuestions.append(question)
-
-        if counter == NumberSelected:
-            if ListBookmark:
-                question_bookmark = buttonbox(title="Bookmarked Questions", msg = "Do you want to replay the bookmarked questions ?", choices=("Yes","No"),default_choice="Yes",cancel_choice="No")
-                if question_bookmark == "Yes":
-                    for questionBookmark in ListBookmark:
-                        del ans[:]
-                        ans = []
-                        anstrueBook = []
-                        for answer in questionBookmark.answer:
-                            ans.append(answer.text)
-
-
-
-                            if answer.valid:
-                                anstrueBook.append(answer.text)
-
-                        if questionBookmark.type == "unique":
-
-
-                            userAnswer = choicebox(questionBookmark.question, "question", ans)
-
-
-                            if userAnswer in anstrueBook:
-                                score = score + 1
-
-                                end = time.time()
-                                result = end - start
-                                correct = ("Well done you got it right. Your score is " + str(score) + str(
-                                    ". Time used until now : " + str(math.floor(result)) + str(" seconds")))
-                                image = "./images/tick.gif"
-                                #msgbox(title="CORRECT", image=image, msg=correct)
-                                ListIncorrectQuestions.remove(questionBookmark)
-                                ListCorrectQuestions.append(questionBookmark)
-
-                            elif userAnswer == None:
-                                sys.exit(0)
-
-
-                            else:
-                                end = time.time()
-                                result = end - start
-
-
-                                wrong = ("I'm sorry that's the wrong answer, your time used until now is " + str(math.floor(result)) + str(
-                                    " seconds"))
-                                image = "./images/cross.gif"
-                                #msgbox(title="Wrong Answer", image=image, msg=wrong)
-                                ListIncorrectQuestions.append(questionBookmark)
-
-
-
-                        else:
-                            userAnswerBook = multchoicebox(questionBookmark.question, "question", ans)
-                            userAnswerBook.sort()
-                            anstrueBook.sort()
-                            #print(userAnswerBook)
-                            #print(anstrueBook)
-                            if userAnswerBook == anstrueBook:
-                                score = score + 1
-
-                                end = time.time()
-                                result = end - start
-
-                                correct = ("Well done you got it right. Your score is " + str(score) + str(
-                                    ". Time used until now : " + str(math.floor(result)) + str(" seconds")))
-                                image = "./images/tick.gif"
-                                #msgbox(title="CORRECT", image=image, msg=correct)
-                                ListIncorrectQuestions.remove(questionBookmark)
-                                ListCorrectQuestions.append(questionBookmark)
-
-
-
-                            else:
-                                end = time.time()
-                                result = end - start
-
-
-                                wrong = ("I'm sorry that's the wrong answer" + str(
-                                    ". Time used until now : " + str(math.floor(result)) + str(" seconds")))
-                                image = "./images/cross.gif"
-                                #msgbox(title="Wrong Answer", image=image, msg=wrong)
-                                #ListIncorrectQuestions.append(questionBookmark)
-
-
-
-
-            break
-
-
-
-
-
-end = time.time()
-result = end - start
-
-gameover_good = "./images/logo-happy.gif"
-gameover_bad = "./images/logo-sad.gif"
-
-game_over_title = "Scrum Master Quiz"
-
-if score <= 0:
-    total_score = 0
-elif nombre <=0:
-    total_score = 0
-else:
-    total_score = 100*score/nombre
-
-
-
-
-msg_bad = ("You have not passed the exam ")+str(player_name)+str(" , your score is : ") +str(total_score)+str("\nSuccess rate = ")+str(rate) +str( "\nTotal time used : ") +str(math.floor(result))+str(" seconds")+str("\n\n\nMore details about your exam ?")
-msg_good = ("You have passed the exam ")+str(player_name)+str(" , your score is : "+str(total_score))+str("\nSuccess rate = ")+str(rate) +str( "\nTotal time used : " +str(math.floor(result))+str(" seconds"))
-
-if rate < total_score:
-    game_over = msgbox(title=game_over_title, image=gameover_good, msg=msg_good)
-
-
-else:
-    choices_det = ("More Details", "Quit the quiz")
-    game_over = buttonbox(msg=msg_bad, title=game_over_title, image=gameover_bad, choices=choices_det)
-
-    if game_over == "More Details":
-        TotalIncorAns = ""
-        for IncorrectAnswered in ListIncorrectQuestions:
-            IncorrectAnswered = IncorrectAnswered
-            TotalIncorAns = TotalIncorAns + IncorrectAnswered.question + "\n\n"
-        msgbox(ok_button="OK", title="Questions with a wrong answer", msg=TotalIncorAns)
-
-    else:
-        sys.exit(0)
-
-
+if __name__ == "__main__":
+    main()
