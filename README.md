@@ -1,18 +1,14 @@
-![Awesome](awesome.svg)    ![Python](python.png)
+# Scrum XML Multiple-Choice Quiz
 
-# Quiz Scrum multichoice in Python 3.
+**Developer:** Hamdy Abou El Anein  
+**Contact:** info@daylightlinux.ch  
+**License:** GPL v3 (see LICENSE).
 
-![Screenshot](screenshot.gif)
+A modern Python 3/Tkinter quiz that reads questions from the repository's `questions.xml`. Supports single-answer and multiple-answer questions, validates XML structure, and computes a score without requiring EasyGUI.
 
-## What you need to make it work :
-pygame and easygui at least version 0.98  
 ```sh
-sudo python3 -m pip install --upgrade easygui
+python3 multiquestions-scrum-quiz-xml.py
+python3 -m unittest discover -s tests -v
 ```
-## Particularity
-The questions are imported from a XML file.
 
-## Developer - Author
-
-Hamdy Abou El Anein
-
+The bundled questions are historical training content and may not reflect the current Scrum Guide. The original version is preserved on [old](https://github.com/hamdyaea/python-xml-quiz-scrum-multichoice/tree/old).
