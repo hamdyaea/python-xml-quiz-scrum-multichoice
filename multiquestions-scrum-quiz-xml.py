@@ -41,6 +41,11 @@ class Quiz(ttk.Frame):
     def __init__(self, root: tk.Tk, questions: list[Question]):
         super().__init__(root, padding=20)
         self.pack(fill="both", expand=True)
+        folder = Path(__file__).resolve().parent / "images"
+        self.images = {key: tk.PhotoImage(file=str(folder / (key + "-ui.png")))
+                       for key in ("quiz-logo", "tick", "cross", "logo-happy", "logo-sad")}
+        self.art = ttk.Label(self, image=self.images["quiz-logo"])
+        self.art.pack()
         self.questions = questions
         self.index = 0
         self.answers: dict[int, set[int]] = {}
@@ -50,7 +55,8 @@ class Quiz(ttk.Frame):
         self.options = ttk.Frame(self)
         self.options.pack(fill="x", expand=True)
         ttk.Label(self, textvariable=self.status).pack(pady=8)
-        ttk.Button(self, text="Next / Finish", command=self.next).pack()
+        self.advance = ttk.Button(self, text="Next / Finish", command=self.next)
+        self.advance.pack()
         self.show()
 
     def show(self) -> None:
@@ -74,11 +80,15 @@ class Quiz(ttk.Frame):
         self.answers[self.index] = chosen
 
     def next(self) -> None:
+        correct = self.answers.get(self.index, set()) == self.questions[self.index].correct
+        self.art.configure(image=self.images["tick" if correct else "cross"])
         if self.index + 1 < len(self.questions):
             self.index += 1
             self.show()
         else:
             points, total = grade(self.questions, self.answers)
+            self.art.configure(image=self.images["logo-happy" if points * 2 >= total else "logo-sad"])
+            self.advance.state(["disabled"])
             self.title.set(f"Score: {points}/{total}")
             self.status.set("Historical training questions; consult the current Scrum Guide.")
             for widget in self.options.winfo_children():
@@ -88,7 +98,7 @@ def main() -> None:
     questions = load_questions()
     root = tk.Tk()
     root.title("Scrum XML Quiz")
-    root.geometry("800x490")
+    root.minsize(740, 490)
     Quiz(root, questions)
     root.mainloop()
 
